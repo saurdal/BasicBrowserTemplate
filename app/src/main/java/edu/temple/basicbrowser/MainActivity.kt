@@ -26,13 +26,27 @@ class MainActivity : AppCompatActivity() {
         webView.webViewClient = object: WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
+
+                url?.run {
+                    urlEditText.setText(this)
+                }
             }
         }
 
         goButton.setOnClickListener {
             val input = urlEditText.text.toString()
+            val newURL = changeURL(input)
+
             webView.loadUrl(input)
         }
 
+    }
+
+    fun changeURL(url: String) {
+        if (
+            !url.startsWith("https://", ignoreCase = true) ||
+            !url.startsWith("http://", ignoreCase = true)) {
+            "https://$url"
+        }
     }
 }
